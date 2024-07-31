@@ -5,10 +5,19 @@
     </head>
     <body>
         {{>header}}
-        <div class="home">
-            <h2>{{title}}</h2>
-            <p>{{descrp}}</p>
+        <div class="weather">
+            <form id="form1">
+            <input type="text" id="inp1" placeholder="Enter your country:">
+            <button>search</button>
+            <div class="content">
+            <p id="location"></p>
+            <p id="longtitude"></p>
+            <p id="latitude"></p>
+            <p id="forcast"></p>
+            <p id="error"></p>
+            </div>
+            </form>
         </div>
-        {{>footer}}
+        <script src="js/main.js"></script>
     </body>
 </html>

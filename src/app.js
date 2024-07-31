@@ -1,20 +1,6 @@
-// Express=>frame work for node js=>for build web App
 const express=require("express");
 const app=express()
 const port=process.env.PORT || 3000
-/*app.get("/",(req,res)=>{
-    res.send("home page")
-})*/
-/*app.get("/contact",(req,res)=>{
-    res.send("contact with us")
-})
-app.get("/products",(req,res)=>{
-    res.send("products page")
-})
-app.get("/categories",(req,res)=>{
-    res.send("hello categories home page")
-})*/
-//nodemon automatic run
 //////////////////////////////////////////////////////////////////////////
 // static path
 const path=require("path")
@@ -35,50 +21,42 @@ app.get("/",(req,res)=>{
         descrp:"Welcome to Home Page"
     })
 })
-app.get("/customer1",(req,res)=>{
-    res.render("customer1",{
-        img:"images/customer.jpg",
-        title:"customer1",
-        name:"mohamed osama",
-        age:"23",
-        city:"Banha",
-        nationality:"Egyptian",
-        phoneNumber:"011256447666"
+/*///////////////////          request        ///////////////////////*/
+app.get("/weather",(req,res)=>{
+    if(!req.query.address){
+        return res.send({
+            error:"you must add address"
+        })
+    }
+    const geocode=require("./data/geocode")
+    const forcast=require("./data/forecast")
+    geocode(req.query.address,(error,data)=>{
+        if(error){
+            return res.send({error})
+        }
+        forcast(data.longtitude,data.latitude,(error,forcastdata)=>{
+            if(error){
+                return res.send({error})
+            }
+            res.send({
+                forcast:"Forecast is: "+forcastdata,
+                longtitude:"Longtitude is: "+data.longtitude,
+                latitude:"Latitude is: "+data.latitude,
+                country:"Country is: "+req.query.address
+            })
+
+        })
     })
+
+    /*res.send({
+        address:req.query.address,
+        forcast:"cold"
+    })*/
 })
-app.get("/customer2",(req,res)=>{
-    res.render("customer2",{
-        img:"images/customer.jpg",
-        title:"customer2",
-        name:"mohamed adel",
-        age:"22",
-        city:"Mansoura",
-        nationality:"Egyptian",
-        phoneNumber:"010125458566"
-    })
-})
-app.get("/customer3",(req,res)=>{
-    res.render("customer3",{
-        img:"images/customer.jpg",
-        title:"customer3",
-        name:"hesham mosaad",
-        age:"25",
-        city:"Cairo",
-        nationality:"Egyptian",
-        phoneNumber:"01234568855"
-    })
-})
-app.get("/customer4",(req,res)=>{
-    res.render("customer4",{
-        img:"images/customer.jpg",
-        title:"customer4",
-        name:"elemby",
-        age:"26",
-        city:"Badr",
-        nationality:"Egyptian",
-        phoneNumber:"012345689896"
-    })
-})
+///////////////////////////////////////////////////////////////////////
+/*app.get("*",(req,res)=>{
+    res.send("page not found")
+})*/
 
 
 
